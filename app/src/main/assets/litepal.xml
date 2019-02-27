@@ -1,0 +1,10 @@
+<litepal>
+    <dbname value="cool_weather" />
+    <version value="1" />
+    <list>
+        <mapping class="com.coolweather.coolweatherjetpack.data.model.place.Province" />
+        <mapping class="com.coolweather.coolweatherjetpack.data.model.place.City" />
+        <mapping class="com.coolweather.coolweatherjetpack.data.model.place.County" />
+    </list>
+    <storage value="external" />
+</litepal>

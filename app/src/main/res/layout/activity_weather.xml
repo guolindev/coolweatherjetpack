@@ -1,0 +1,56 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/bingPicImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/weatherLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
+
+                    <include layout="@layout/title"/>
+                    <include layout="@layout/now"/>
+                    <include layout="@layout/forecast"/>
+                    <include layout="@layout/aqi"/>
+                    <include layout="@layout/suggestion"/>
+
+                </LinearLayout>
+
+            </ScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <fragment
+            android:id="@+id/chooseAreaFragment"
+            android:name="com.coolweather.coolweatherjetpack.ui.area.ChooseAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</FrameLayout>

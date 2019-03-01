@@ -3,7 +3,7 @@
 
 这里我先给出一张酷欧天气Jetpack版的架构设计图，这张图是模仿Google Codelabs的Sunshine项目画出来的。拥有良好架构设计的项目都是可以用简洁清晰的架构图表示出来的，而一个杂乱无章没有架构设计的项目则很难用架构图表示出来。
 
-<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/architecture.png" width="750" />
+<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/images/architecture.png" width="750" />
 
 上述架构图可能一开始看你会找不着重点，其实这张架构图非常清晰，我来带大家解读一下。
 
@@ -26,6 +26,10 @@
 还有，引用不能跨层持有，就比方说UI控制层不能持有仓库层的引用，每一层的组件都只能和它的相邻层交互。
 
 大概就介绍这么多吧，剩下的就靠大家自己去阅读源码进行学习了。
+
+项目运行截图如下：
+
+<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/images/Screenshot_1.png" width="250" />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/images/Screenshot_2.png" width="250" />
 
 最后，希望这个项目能够帮助大家更好地学习Jetpack，更好地学习MVVM架构。
 

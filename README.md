@@ -3,7 +3,7 @@
 
 这里我先给出一张酷欧天气Jetpack版的架构设计图，这张图是模仿Google Codelabs的Sunshine项目画出来的。拥有良好架构设计的项目都是可以用简洁清晰的架构图表示出来的，而一个杂乱无章没有架构设计的项目则很难用架构图表示出来。
 
-<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/images/architecture.png" width="750" />
+<img src="https://raw.githubusercontent.com/guolindev/coolweatherjetpack/master/images/architecture.jpg" width="750" />
 
 上述架构图可能一开始看你会找不着重点，其实这张架构图非常清晰，我来带大家解读一下。
 

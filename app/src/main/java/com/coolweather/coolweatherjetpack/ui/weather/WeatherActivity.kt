@@ -46,19 +46,19 @@ class WeatherActivity : AppCompatActivity() {
         } else {
             mWeatherId = intent.getStringExtra("weather_id")
             weatherLayout.visibility = View.INVISIBLE
-            observeWeather(viewModel.getWeather(mWeatherId, MainActivity.KEY), false)
+            observeWeather(mWeatherId, viewModel.getWeather(mWeatherId, MainActivity.KEY), false)
         }
         observeBindPic(viewModel.getBingPic())
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         swipeRefresh.setOnRefreshListener {
-            observeWeather(viewModel.refreshWeather(mWeatherId, MainActivity.KEY), true)
+            observeWeather(mWeatherId, viewModel.refreshWeather(mWeatherId, MainActivity.KEY), true)
         }
         navButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 
-    fun observeWeather(liveData: LiveData<Resource<Weather>>, refresh: Boolean) {
+    fun observeWeather(weatherId: String, liveData: LiveData<Resource<Weather>>, refresh: Boolean) {
         if (viewModel.weather == null || refresh) {
             liveData.observe(this, Observer { result ->
                 if (result?.status == Resource.LOADING) {
@@ -66,6 +66,7 @@ class WeatherActivity : AppCompatActivity() {
                     showWeatherInfo(result.data)
                     swipeRefresh.isRefreshing = false
                     viewModel.weather = result.data
+                    mWeatherId = weatherId
                 } else {
                     Toast.makeText(this, result?.message, Toast.LENGTH_SHORT).show()
                     swipeRefresh.isRefreshing = false
@@ -73,6 +74,7 @@ class WeatherActivity : AppCompatActivity() {
             })
         } else {
             showWeatherInfo(viewModel.weather!!)
+            mWeatherId = weatherId
             swipeRefresh.isRefreshing = false
         }
     }

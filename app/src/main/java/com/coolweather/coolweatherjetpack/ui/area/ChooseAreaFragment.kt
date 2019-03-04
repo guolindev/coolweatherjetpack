@@ -61,6 +61,7 @@ class ChooseAreaFragment : Fragment() {
                         val weatherActivity = activity as WeatherActivity
                         weatherActivity.drawerLayout.closeDrawers()
                         weatherActivity.swipeRefresh.isRefreshing = true
+                        weatherActivity.mWeatherId = weatherId
                         weatherActivity.observeWeather(weatherActivity.viewModel.refreshWeather(weatherId, MainActivity.KEY), true)
                     }
                 }

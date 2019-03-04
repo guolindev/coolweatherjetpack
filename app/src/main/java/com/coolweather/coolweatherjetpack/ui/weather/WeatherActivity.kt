@@ -29,7 +29,7 @@ class WeatherActivity : AppCompatActivity() {
 
     lateinit var viewModel: WeatherViewModel
 
-    private lateinit var mWeatherId: String
+    lateinit var mWeatherId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

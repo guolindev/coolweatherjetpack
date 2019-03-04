@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        // 请求天气API的Key，请到http://guolin.tech/api/weather/register申请免费的Key
+        // 备用Key，由于每个Key每天只有1000次免费请求，如果已用超的话请换别的Key使用。
+        // 9da35b0a6b2c48498ed9e81b9d5206f3
+        // 0099dcee07fd488e8b8866f16453fa2e
         const val KEY = "45dd25f63300445e967b461d2037e4f9"
     }
 

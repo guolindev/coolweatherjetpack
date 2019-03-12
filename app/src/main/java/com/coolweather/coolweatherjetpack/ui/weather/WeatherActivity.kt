@@ -9,12 +9,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.coolweather.coolweatherjetpack.R
-import com.coolweather.coolweatherjetpack.data.Resource
 import com.coolweather.coolweatherjetpack.data.model.weather.Weather
 import com.coolweather.coolweatherjetpack.ui.MainActivity
 import com.coolweather.coolweatherjetpack.util.InjectorUtil
@@ -27,7 +25,7 @@ import kotlinx.android.synthetic.main.title.*
 
 class WeatherActivity : AppCompatActivity() {
 
-    lateinit var viewModel: WeatherViewModel
+    val viewModel by lazy { ViewModelProviders.of(this, InjectorUtil.getWeatherModelFactory()).get(WeatherViewModel::class.java) }
 
     lateinit var mWeatherId: String
 
@@ -39,57 +37,39 @@ class WeatherActivity : AppCompatActivity() {
             window.statusBarColor = Color.TRANSPARENT
         }
         setContentView(R.layout.activity_weather)
-        viewModel = ViewModelProviders.of(this, InjectorUtil.getWeatherModelFactory()).get(WeatherViewModel::class.java)
-        if (viewModel.isWeatherCached()) {
-            mWeatherId = viewModel.getCachedWeather().basic.weatherId
-            showWeatherInfo(viewModel.getCachedWeather())
+        mWeatherId = if (viewModel.isWeatherCached()) {
+            viewModel.getCachedWeather().basic.weatherId
         } else {
-            mWeatherId = intent.getStringExtra("weather_id")
-            weatherLayout.visibility = View.INVISIBLE
-            observeWeather(viewModel.getWeather(mWeatherId, MainActivity.KEY), false)
+            intent.getStringExtra("weather_id")
         }
-        observeBindPic(viewModel.getBingPic())
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         swipeRefresh.setOnRefreshListener {
-            observeWeather(viewModel.refreshWeather(mWeatherId, MainActivity.KEY), true)
+            viewModel.refreshWeather(mWeatherId, MainActivity.KEY)
         }
         navButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+        observe()
     }
 
-    fun observeWeather(liveData: LiveData<Resource<Weather>>, refresh: Boolean) {
-        if (viewModel.weather == null || refresh) {
-            liveData.observe(this, Observer { result ->
-                if (result?.status == Resource.LOADING) {
-                } else if (result?.data != null && result.status == Resource.SUCCESS) {
-                    showWeatherInfo(result.data)
-                    swipeRefresh.isRefreshing = false
-                    viewModel.weather = result.data
-                } else {
-                    Toast.makeText(this, result?.message, Toast.LENGTH_SHORT).show()
-                    swipeRefresh.isRefreshing = false
-                }
-            })
-        } else {
-            showWeatherInfo(viewModel.weather!!)
-            swipeRefresh.isRefreshing = false
-        }
-    }
-
-    private fun observeBindPic(liveData: LiveData<Resource<String>>) {
-        if (viewModel.bingPicUrl == null) {
-            liveData.observe(this, Observer { result ->
-                if (result?.data != null && result.status == Resource.SUCCESS) {
-                    Glide.with(this).load(result.data).into(bingPicImg)
-                    viewModel.bingPicUrl = result.data
-                } else {
-                    Toast.makeText(this, result?.message, Toast.LENGTH_SHORT).show()
-                }
-            })
-        } else {
-            Glide.with(this).load(viewModel.bingPicUrl).into(bingPicImg)
-        }
+    private fun observe() {
+        viewModel.weather.observe(this, Observer { result ->
+            if (result.isSuccess) {
+                showWeatherInfo(result.getOrThrow())
+                swipeRefresh.isRefreshing = false
+            } else {
+                Toast.makeText(this, result.exceptionOrNull()?.message, Toast.LENGTH_SHORT).show()
+                swipeRefresh.isRefreshing = false
+            }
+        })
+        viewModel.bingPicUrl.observe(this, Observer { result ->
+            if (result.isSuccess) {
+                Glide.with(this).load(result.getOrThrow()).into(bingPicImg)
+            } else {
+                Toast.makeText(this, result.exceptionOrNull()?.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+        viewModel.getWeather(mWeatherId, MainActivity.KEY)
     }
 
     private fun showWeatherInfo(weather: Weather) {

@@ -1,12 +1,13 @@
 package com.coolweather.coolweatherjetpack.data.network
 
-import com.coolweather.coolweatherjetpack.data.model.place.City
-import com.coolweather.coolweatherjetpack.data.model.place.County
-import com.coolweather.coolweatherjetpack.data.model.place.Province
-import com.coolweather.coolweatherjetpack.data.model.weather.HeWeather
 import com.coolweather.coolweatherjetpack.data.network.api.PlaceService
 import com.coolweather.coolweatherjetpack.data.network.api.WeatherService
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class CoolWeatherNetwork {
 
@@ -14,15 +15,31 @@ class CoolWeatherNetwork {
 
     private val weatherService = ServiceCreator.create(WeatherService::class.java)
 
-    fun fetchProvinceList(callback: Callback<List<Province>>) = placeService.getProvinces().enqueue(callback)
+    suspend fun fetchProvinceList() = placeService.getProvinces().await()
 
-    fun fetchCityList(provinceId: Int, callback: Callback<List<City>>) = placeService.getCities(provinceId).enqueue(callback)
+    suspend fun fetchCityList(provinceId: Int) = placeService.getCities(provinceId).await()
 
-    fun fetchCountyList(provinceId: Int, cityId: Int, callback: Callback<List<County>>) = placeService.getCounties(provinceId, cityId).enqueue(callback)
+    suspend fun fetchCountyList(provinceId: Int, cityId: Int) = placeService.getCounties(provinceId, cityId).await()
 
-    fun fetchWeather(weatherId: String, key: String, callback: Callback<HeWeather>) = weatherService.getWeather(weatherId, key).enqueue(callback)
+    suspend fun fetchWeather(weatherId: String, key: String) = weatherService.getWeather(weatherId, key).await()
 
-    fun fetchBingPic(callback: Callback<String>) = weatherService.getBingPck().enqueue(callback)
+    suspend fun fetchBingPic() = weatherService.getBingPic().await()
+
+    private suspend fun <T> Call<T>.await(): T {
+        return suspendCoroutine { continuation ->
+            enqueue(object : Callback<T> {
+                override fun onFailure(call: Call<T>, t: Throwable) {
+                    continuation.resumeWithException(t)
+                }
+
+                override fun onResponse(call: Call<T>, response: Response<T>) {
+                    val body = response.body()
+                    if (body != null) continuation.resume(body)
+                    else continuation.resumeWithException(RuntimeException("response body is null"))
+                }
+            })
+        }
+    }
 
     companion object {
 

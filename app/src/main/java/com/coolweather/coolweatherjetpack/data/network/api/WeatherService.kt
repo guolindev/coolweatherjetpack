@@ -11,6 +11,6 @@ interface WeatherService {
     fun getWeather(@Query("cityid") weatherId: String, @Query("key") key: String): Call<HeWeather>
 
     @GET("api/bing_pic")
-    fun getBingPck(): Call<String>
+    fun getBingPic(): Call<String>
 
 }

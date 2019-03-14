@@ -8,6 +8,8 @@ class Now {
     @SerializedName("cond")
     lateinit var more: More
 
+    fun degree() = "$temperature℃"
+
     inner class More {
         @SerializedName("txt")
         var info = ""

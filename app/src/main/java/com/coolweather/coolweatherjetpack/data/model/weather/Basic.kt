@@ -12,5 +12,7 @@ class Basic {
     inner class Update {
         @SerializedName("loc")
         var updateTime = ""
+
+        fun time() = updateTime.split(" ")[1]
     }
 }

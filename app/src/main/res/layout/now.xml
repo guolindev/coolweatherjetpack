@@ -1,23 +1,29 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="weather" type="com.coolweather.coolweatherjetpack.data.model.weather.Weather" />
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/degreeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:textColor="#fff"
-        android:textSize="60sp"/>
+        <TextView
+                android:id="@+id/degreeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@{weather.now.degree()}"
+                android:textColor="#fff"
+                android:textSize="60sp"/>
 
-    <TextView
-        android:id="@+id/weatherInfoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:textColor="#fff"
-        android:textSize="20sp"/>
-</LinearLayout>
+        <TextView
+                android:id="@+id/weatherInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@{weather.now.more.info}"
+                android:textColor="#fff"
+                android:textSize="20sp"/>
+    </LinearLayout>
+</layout>

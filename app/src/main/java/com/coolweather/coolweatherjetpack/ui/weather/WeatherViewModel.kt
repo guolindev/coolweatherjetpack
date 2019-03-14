@@ -1,32 +1,44 @@
 package com.coolweather.coolweatherjetpack.ui.weather
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.coolweather.coolweatherjetpack.CoolWeatherApplication
 import com.coolweather.coolweatherjetpack.data.WeatherRepository
 import com.coolweather.coolweatherjetpack.data.model.weather.Weather
+import com.coolweather.coolweatherjetpack.ui.MainActivity
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
-    var weather = MutableLiveData<Result<Weather>>()
+    var weather = MutableLiveData<Weather>()
 
-    var bingPicUrl = MutableLiveData<Result<String>>()
+    var bingPicUrl = MutableLiveData<String>()
 
-    fun getWeather(weatherId: String, key: String) {
+    var refreshing = MutableLiveData<Boolean>()
+
+    var weatherId = ""
+
+    var key = MainActivity.KEY
+
+    fun getWeather() {
         launch ({
-            weather.value = Result.success(repository.getWeather(weatherId, key))
+            weather.value = repository.getWeather(weatherId, key)
         }, {
-            weather.value = Result.failure(it)
+            Toast.makeText(CoolWeatherApplication.context, it.message, Toast.LENGTH_SHORT).show()
         })
         getBingPic(false)
     }
 
-    fun refreshWeather(weatherId: String, key: String) {
+    fun refreshWeather() {
+        refreshing.value = true
         launch ({
-            weather.value = Result.success(repository.refreshWeather(weatherId, key))
+            weather.value = repository.refreshWeather(weatherId, key)
+            refreshing.value = false
         }, {
-            weather.value = Result.failure(it)
+            Toast.makeText(CoolWeatherApplication.context, it.message, Toast.LENGTH_SHORT).show()
+            refreshing.value = false
         })
         getBingPic(true)
     }
@@ -35,12 +47,15 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     fun getCachedWeather() = repository.getCachedWeather()
 
+    fun onRefresh() {
+        refreshWeather()
+    }
+
     private fun getBingPic(refresh: Boolean) {
         launch({
-            val url = if (refresh) repository.refreshBingPic() else repository.getBingPic()
-            bingPicUrl.value = Result.success(url)
+            bingPicUrl.value = if (refresh) repository.refreshBingPic() else repository.getBingPic()
         }, {
-            bingPicUrl.value = Result.failure(it)
+            Toast.makeText(CoolWeatherApplication.context, it.message, Toast.LENGTH_SHORT).show()
         })
     }
 

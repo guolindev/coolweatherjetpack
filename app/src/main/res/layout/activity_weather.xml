@@ -1,57 +1,69 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-
-    <ImageView
-        android:id="@+id/bingPicImg"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.coolweather.coolweatherjetpack.ui.weather.WeatherViewModel" />
+        <variable name="resId" type="Integer" />
+    </data>
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:background="@color/colorPrimary">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/bingPicImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            bind:loadBingPic="@{viewModel.bingPicUrl}"
+        />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drawerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
-                android:id="@+id/weatherLayout"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:scrollbars="none"
-                android:overScrollMode="never">
+                bind:refreshing="@{viewModel.refreshing}"
+                bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
+                bind:colorSchemeResources="@{resId}"
+            >
 
-                <LinearLayout
-                    android:orientation="vertical"
+                <ScrollView
+                    android:id="@+id/weatherLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true">
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    android:scrollbars="none"
+                    android:overScrollMode="never">
 
-                    <include layout="@layout/title"/>
-                    <include layout="@layout/now"/>
-                    <include layout="@layout/forecast"/>
-                    <include layout="@layout/aqi"/>
-                    <include layout="@layout/suggestion"/>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fitsSystemWindows="true">
 
-                </LinearLayout>
+                        <include layout="@layout/title" bind:weather="@{viewModel.weather}"/>
+                        <include layout="@layout/now" bind:weather="@{viewModel.weather}"/>
+                        <include layout="@layout/forecast" bind:weather="@{viewModel.weather}"/>
+                        <include layout="@layout/aqi" bind:weather="@{viewModel.weather}"/>
+                        <include layout="@layout/suggestion" bind:weather="@{viewModel.weather}"/>
 
-            </ScrollView>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    </LinearLayout>
 
-        <fragment
-            android:id="@+id/chooseAreaFragment"
-            android:name="com.coolweather.coolweatherjetpack.ui.area.ChooseAreaFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" />
+                </ScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+            <fragment
+                android:id="@+id/chooseAreaFragment"
+                android:name="com.coolweather.coolweatherjetpack.ui.area.ChooseAreaFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"/>
 
-</FrameLayout>
+        </androidx.drawerlayout.widget.DrawerLayout>
+
+    </FrameLayout>
+</layout>

@@ -52,9 +52,8 @@ class ChooseAreaFragment : Fragment() {
                         } else if (activity is WeatherActivity) {
                             val weatherActivity = activity as WeatherActivity
                             weatherActivity.drawerLayout.closeDrawers()
-                            weatherActivity.swipeRefresh.isRefreshing = true
-                            weatherActivity.mWeatherId = weatherId
-                            weatherActivity.viewModel.refreshWeather(weatherId, MainActivity.KEY)
+                            weatherActivity.viewModel.weatherId = weatherId
+                            weatherActivity.viewModel.refreshWeather()
                         }
                     }
                 }

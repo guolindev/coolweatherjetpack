@@ -20,7 +20,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     var weatherId = ""
 
-    var key = MainActivity.KEY
+    private var key = MainActivity.KEY
 
     fun getWeather() {
         launch ({

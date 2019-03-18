@@ -8,6 +8,7 @@ import com.coolweather.coolweatherjetpack.util.InjectorUtil
 import com.coolweather.coolweatherjetpack.ui.weather.WeatherActivity
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
+import com.coolweather.coolweatherjetpack.ui.area.ChooseAreaFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, WeatherActivity::class.java)
                 startActivity(intent)
                 finish()
+            } else {
+                supportFragmentManager.beginTransaction().replace(R.id.container, ChooseAreaFragment()).commit()
             }
         }
     }

@@ -18,6 +18,8 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     var refreshing = MutableLiveData<Boolean>()
 
+    var weatherInitialized = MutableLiveData<Boolean>()
+
     var weatherId = ""
 
     private var key = MainActivity.KEY
@@ -25,6 +27,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     fun getWeather() {
         launch ({
             weather.value = repository.getWeather(weatherId, key)
+            weatherInitialized.value = true
         }, {
             Toast.makeText(CoolWeatherApplication.context, it.message, Toast.LENGTH_SHORT).show()
         })
@@ -36,6 +39,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
         launch ({
             weather.value = repository.refreshWeather(weatherId, key)
             refreshing.value = false
+            weatherInitialized.value = true
         }, {
             Toast.makeText(CoolWeatherApplication.context, it.message, Toast.LENGTH_SHORT).show()
             refreshing.value = false

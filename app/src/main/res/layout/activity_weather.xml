@@ -1,8 +1,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable name="viewModel" type="com.coolweather.coolweatherjetpack.ui.weather.WeatherViewModel" />
         <variable name="resId" type="Integer" />
+        <variable name="init" type="Boolean" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
@@ -35,7 +37,7 @@
                     android:id="@+id/weatherLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"
+                    android:visibility="@{viewModel.weatherInitialized ? View.VISIBLE : View.INVISIBLE}"
                     android:scrollbars="none"
                     android:overScrollMode="never">
 

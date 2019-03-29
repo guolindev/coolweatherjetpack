@@ -8,13 +8,13 @@ import kotlinx.coroutines.withContext
 
 class WeatherRepository private constructor(private val weatherDao: WeatherDao, private val network: CoolWeatherNetwork) {
 
-    suspend fun getWeather(weatherId: String, key: String): Weather {
+    suspend fun getWeather(weatherId: String): Weather {
         var weather = weatherDao.getCachedWeatherInfo()
-        if (weather == null) weather = requestWeather(weatherId, key)
+        if (weather == null) weather = requestWeather(weatherId)
         return weather
     }
 
-    suspend fun refreshWeather(weatherId: String, key: String) = requestWeather(weatherId, key)
+    suspend fun refreshWeather(weatherId: String) = requestWeather(weatherId)
 
     suspend fun getBingPic(): String {
         var url = weatherDao.getCachedBingPic()
@@ -28,8 +28,8 @@ class WeatherRepository private constructor(private val weatherDao: WeatherDao, 
 
     fun getCachedWeather() = weatherDao.getCachedWeatherInfo()!!
 
-    private suspend fun requestWeather(weatherId: String, key: String) = withContext(Dispatchers.IO) {
-        val heWeather = network.fetchWeather(weatherId, key)
+    private suspend fun requestWeather(weatherId: String) = withContext(Dispatchers.IO) {
+        val heWeather = network.fetchWeather(weatherId)
         val weather = heWeather.weather!![0]
         weatherDao.cacheWeatherInfo(weather)
         weather

@@ -11,10 +11,10 @@ import com.coolweather.coolweatherjetpack.databinding.SimpleItemBinding
 class ChooseAreaAdapter(context: Context, private val resId: Int, private val dataList: List<String>) : ArrayAdapter<String>(context, resId, dataList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var bind: SimpleItemBinding? = null
+        val bind: SimpleItemBinding?
         val view = if (convertView == null) {
             val v = LayoutInflater.from(context).inflate(resId, parent, false)
-            bind = DataBindingUtil.bind<com.coolweather.coolweatherjetpack.databinding.SimpleItemBinding>(v)
+            bind = DataBindingUtil.bind(v)
             v.tag = bind
             v
         } else {

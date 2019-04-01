@@ -21,7 +21,7 @@ class CoolWeatherNetwork {
 
     suspend fun fetchCountyList(provinceId: Int, cityId: Int) = placeService.getCounties(provinceId, cityId).await()
 
-    suspend fun fetchWeather(weatherId: String, key: String) = weatherService.getWeather(weatherId, key).await()
+    suspend fun fetchWeather(weatherId: String) = weatherService.getWeather(weatherId).await()
 
     suspend fun fetchBingPic() = weatherService.getBingPic().await()
 

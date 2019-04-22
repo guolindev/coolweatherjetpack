@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.coolweather.coolweatherjetpack.CoolWeatherApplication
 import com.coolweather.coolweatherjetpack.data.WeatherRepository
 import com.coolweather.coolweatherjetpack.data.model.weather.Weather
-import com.coolweather.coolweatherjetpack.ui.MainActivity
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {

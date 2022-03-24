@@ -1,7 +1,7 @@
 package com.coolweather.coolweatherjetpack.data.db
 
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.coolweather.coolweatherjetpack.CoolWeatherApplication
 import com.coolweather.coolweatherjetpack.data.model.weather.Weather
 import com.google.gson.Gson

@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:fitsSystemWindows="true">
 
-                        <include layout="@layout/title" bind:weather="@{viewModel.weather}"/>
+                        <include android:id="@+id/title" layout="@layout/title" bind:weather="@{viewModel.weather}"/>
                         <include layout="@layout/now" bind:weather="@{viewModel.weather}"/>
                         <include layout="@layout/forecast" bind:weather="@{viewModel.weather}"/>
                         <include layout="@layout/aqi" bind:weather="@{viewModel.weather}"/>

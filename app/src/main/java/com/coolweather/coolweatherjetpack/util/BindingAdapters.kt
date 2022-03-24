@@ -11,17 +11,17 @@ import com.coolweather.coolweatherjetpack.R
 import com.coolweather.coolweatherjetpack.data.model.weather.Weather
 import com.coolweather.coolweatherjetpack.databinding.ForecastItemBinding
 
-@BindingAdapter("bind:loadBingPic")
+@BindingAdapter("loadBingPic")
 fun ImageView.loadBingPic(url: String?) {
     if (url != null) Glide.with(context).load(url).into(this)
 }
 
-@BindingAdapter("bind:colorSchemeResources")
+@BindingAdapter("colorSchemeResources")
 fun SwipeRefreshLayout.colorSchemeResources(resId: Int) {
     setColorSchemeResources(resId)
 }
 
-@BindingAdapter("bind:showForecast")
+@BindingAdapter("showForecast")
 fun LinearLayout.showForecast(weather: Weather?) = weather?.let {
     removeAllViews()
     for (forecast in it.forecastList) {

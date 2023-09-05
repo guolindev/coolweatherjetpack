@@ -14,19 +14,19 @@ class PlaceDao {
     fun getCountyList(cityId: Int): MutableList<County> = LitePal.where("cityId = ?", cityId.toString()).find(County::class.java)
 
     fun saveProvinceList(provinceList: List<Province>?) {
-        if (provinceList != null && provinceList.isNotEmpty()) {
+        if (!provinceList.isNullOrEmpty()) {
             LitePal.saveAll(provinceList)
         }
     }
 
     fun saveCityList(cityList: List<City>?) {
-        if (cityList != null && cityList.isNotEmpty()) {
+        if (!cityList.isNullOrEmpty()) {
             LitePal.saveAll(cityList)
         }
     }
 
     fun saveCountyList(countyList: List<County>?) {
-        if (countyList != null && countyList.isNotEmpty()) {
+        if (!countyList.isNullOrEmpty()) {
             LitePal.saveAll(countyList)
         }
     }

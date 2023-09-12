@@ -21,7 +21,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     var weatherId = ""
 
-    fun getWeather() {
+    fun getWeatherFromRepository() {
         launch ({
             weather.value = repository.getWeather(weatherId)
             weatherInitialized.value = true

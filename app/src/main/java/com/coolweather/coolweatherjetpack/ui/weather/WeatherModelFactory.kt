@@ -7,7 +7,7 @@ import com.coolweather.coolweatherjetpack.data.WeatherRepository
 class WeatherModelFactory(private val repository: WeatherRepository) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return WeatherViewModel(repository) as T
     }
 }

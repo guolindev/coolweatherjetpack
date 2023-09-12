@@ -36,3 +36,9 @@
 学习更多的Android技术知识，请关注我的微信公众号：
 
 <img src="https://raw.githubusercontent.com/guolindev/booksource/master/qrcode.jpg" width="250" />
+
+# 主要修改
+1.升级各种组件的版本，修正编译错误、编译警告  
+2.修正一些过时的写法，如ViewModel的初始化、Fragment的onActivityCreated  
+3.去掉过时的kotlin-android-extensions插件，直接使用DataBinding获取控件  
+4.替换android.preference.PreferenceManager为androidx.preference.PreferenceManager
